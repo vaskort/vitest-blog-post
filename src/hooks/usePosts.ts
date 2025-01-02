@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Post } from '@/types/Post';
 
-const API_URL = "https://jsonplaceholder.typicode.com/posts";
+const API_URL = 'https://jsonplaceholder.typicode.com/posts';
 
 export const usePosts = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,11 +15,13 @@ export const usePosts = () => {
         setPosts(response.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPosts();
-  });
+  }, []);
 
-  return posts;
+  return { posts, loading };
 };
