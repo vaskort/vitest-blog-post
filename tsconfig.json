@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vite"],
+    "types": ["vite/client", "vitest/globals"],
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"]
