@@ -12,6 +12,7 @@ export const usePosts = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(API_URL);
+
         setPosts(response.data);
       } catch (error) {
         console.error(error);
