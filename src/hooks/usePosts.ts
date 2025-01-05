@@ -7,6 +7,7 @@ const API_URL = 'https://jsonplaceholder.typicode.com/posts';
 export const usePosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -15,7 +16,7 @@ export const usePosts = () => {
 
         setPosts(response.data);
       } catch (error) {
-        console.error(error);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -24,5 +25,5 @@ export const usePosts = () => {
     fetchPosts();
   }, []);
 
-  return { posts, loading };
+  return { posts, loading, error };
 };

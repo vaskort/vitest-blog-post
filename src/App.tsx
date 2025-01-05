@@ -2,10 +2,14 @@ import { usePosts } from './hooks/usePosts';
 import './styles.css';
 
 export default function App() {
-  const { posts, loading } = usePosts();
+  const { posts, loading, error } = usePosts();
 
   if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading posts</div>;
   }
 
   return (

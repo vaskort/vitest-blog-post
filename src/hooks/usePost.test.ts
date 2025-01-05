@@ -13,6 +13,7 @@ describe('usePosts', () => {
   });
 
   describe('when the API call is successful', () => {
+    // We use vi.mocked for Typescript type inference.
     const mockAxios = vi.mocked(axios.get);
     const mockPosts = [
       { id: 1, title: 'Post 1' },
@@ -20,10 +21,12 @@ describe('usePosts', () => {
     ];
 
     beforeEach(() => {
+      // We use mockResolvedValue to mock the API response.
       mockAxios.mockResolvedValue({ data: mockPosts });
     });
 
     it('should return the posts and loading as false', async () => {
+      // We use renderHook from RTL to render our custom hook.
       const { result } = renderHook(() => usePosts());
 
       // waitFor is used to wait for asynchronous state updates in the hook.
@@ -31,6 +34,7 @@ describe('usePosts', () => {
       await waitFor(() => {
         expect(result.current.posts).toEqual(mockPosts);
         expect(result.current.loading).toBe(false);
+        expect(result.current.error).toBe(false);
       });
     });
   });
@@ -48,6 +52,7 @@ describe('usePosts', () => {
       await waitFor(() => {
         expect(result.current.posts).toEqual([]);
         expect(result.current.loading).toBe(false);
+        expect(result.current.error).toBe(true);
       });
     });
   });

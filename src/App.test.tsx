@@ -11,23 +11,49 @@ describe('App', () => {
     vi.clearAllMocks();
   });
 
-  it('should render the loading state', () => {
-    mockUsePosts.mockReturnValue({ posts: [], loading: true });
-    const { getByText } = render(<App />);
+  describe('Loading state', () => {
+    beforeEach(() => {
+      mockUsePosts.mockReturnValue({ posts: [], loading: true, error: false });
+    });
 
-    expect(getByText('Loading...')).toBeInTheDocument();
+    it('should render the loading state', () => {
+      const { getByText } = render(<App />);
+
+      expect(getByText('Loading...')).toBeInTheDocument();
+    });
   });
 
-  it('should render the posts', () => {
+  describe('Error state', () => {
+    beforeEach(() => {
+      mockUsePosts.mockReturnValue({ posts: [], loading: false, error: true });
+    });
+
+    it('should render the error state', () => {
+      const { getByText } = render(<App />);
+
+      expect(getByText('Error loading posts')).toBeInTheDocument();
+    });
+  });
+
+  describe('Success state', () => {
     const mockPosts = [
       { id: 1, userId: 1, body: 'Content 1', title: 'Post 1' },
       { id: 2, userId: 2, body: 'Content 2', title: 'Post 2' },
     ];
 
-    mockUsePosts.mockReturnValue({ posts: mockPosts, loading: false });
-    const { getByText } = render(<App />);
+    beforeEach(() => {
+      mockUsePosts.mockReturnValue({
+        posts: mockPosts,
+        loading: false,
+        error: false,
+      });
+    });
 
-    expect(getByText('Post 1')).toBeInTheDocument();
-    expect(getByText('Post 2')).toBeInTheDocument();
+    it('should render the posts', () => {
+      const { getByText } = render(<App />);
+
+      expect(getByText('Post 1')).toBeInTheDocument();
+      expect(getByText('Post 2')).toBeInTheDocument();
+    });
   });
 });
